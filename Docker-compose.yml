@@ -1,0 +1,22 @@
+version: '3'
+services: 
+    web: #Container 1 for web
+        stdin_open: true
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - /app/node_modules
+            - .:/app #map the current local files to "/app" inside the container
+    tests: # Container 2 for testing
+        stdin_open: true
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - .:/app #map the current local files to "/app" inside the container
+        command: ["npm","run","test"]
+        
